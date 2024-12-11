@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>  
+        <script type="module" src="resource.js"></script>
+    </head>
+    <body>
+        <p><center><b>Tool for changing Item Icons within FFXI Dats</b>
+        <br>
+        <hr width="50%" />
+        <b>Directions</b><br>
+        Step 1: Select applicable DAT<br>
+        Step 2: Select item to change<br>
+        Step 3: Select image<br>
+        Step 4: Confirm injection</p>
+        <button id="restartButton" type="button">Reset Page</button> 
+
+        <div id="step1">
+            <hr width="50%" />
+            <b>STEP 1</b>
+            <p>Choose applicable DAT:</p>
+            <input type="file" id="input_DAT">
+            <p id="step1success"></p>
+        </div>
+        <div id="step2">
+            <hr width="50%" />
+            <b>STEP 2</b>
+            <p>Select Item:</p>
+            <select id="selectItem"></select>
+            <br>
+            <table id="itemSelected" style="width: 350px; background-color: whitesmoke;"></table>
+            <p id="step2success"></p>
+        </div>
+        <div id="step3">
+            <hr width="50%" />
+            <b>STEP 3</b>
+            <p>Select Image:</p>
+            <input type="file" id="injectImage">
+            <p id="step3success"></p>
+        </div>
+        <div id="step4">
+            <hr width="50%" />
+            <b>STEP 4</b><br>
+            <button id="injectButton" type="button">Inject Image</button> 
+            <p id="step4success"></p>
+        </div>
+        </center>
+    </body>
+</html>
