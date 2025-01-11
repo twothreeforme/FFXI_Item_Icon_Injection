@@ -27,6 +27,19 @@ document.getElementById("injectButton").addEventListener('click', function(){
 });
 
 /**
+ * Save - buttons setup
+ */
+document.getElementById("saveAllIcons").disabled = true;
+document.getElementById("saveAllIcons").addEventListener('click', function(){
+    saveAllIcons();
+});
+
+document.getElementById("saveDecodedDAT").disabled = true;
+document.getElementById("saveDecodedDAT").addEventListener('click', function(){
+    saveDecodedDAT();
+});
+
+/**
  * Reload window button setup
  */
 document.getElementById('restartButton').addEventListener('click', function(){
@@ -49,6 +62,9 @@ document.getElementById('input_DAT').addEventListener('change', function(){
         para.innerHTML = "DAT loaded"
         step1complete = true;
 
+        document.getElementById("saveDecodedDAT").disabled = false;
+        document.getElementById("saveAllIcons").disabled = false;
+
         fillSelectItemsList(decodedDAT);
         }
     reader.readAsArrayBuffer(this.files[0]);
@@ -63,21 +79,20 @@ document.getElementById('input_DAT').addEventListener('change', function(){
  */
 const selectElement = document.getElementById("selectItem");
     selectElement.addEventListener("change", function() {
+    //var id = collection.items[0].id + this.value;
     displayItem(this.value);
     step2complete = true;
-    selectedItemId =  this.value;
-    
+    selectedItemId = this.value;
     const para = document.getElementById('step2success');
     para.innerHTML = "<b>Offset data:</b> <br><b>Item:</b> " + Strings.decimalToHex(collection.items[selectedItemId].offset) + "<br><b>Icon:</b> " + Strings.decimalToHex(collection.items[selectedItemId].iconOffset);
 });
 
 function fillSelectItemsList(decodedDAT){
     collection = new ItemsCollection(decodedDAT);
-
     const selectItemElement = document.getElementById("selectItem");
     for ( var opt = 0; opt < collection.items.length ; opt++ ){
         const str = "[" + collection.items[opt].id + "] " + collection.items[opt].nameFull;
-        const newOption = new Option(str, collection.items[opt].id);
+        const newOption = new Option(str, opt);
         selectItemElement.add(newOption);
     }
 }
@@ -99,6 +114,8 @@ function displayItem(itemid){
     var cellText = row.insertCell(1);
 
     const item = collection.items[itemid];
+    //console.log(itemid)
+
     cellText.innerHTML = "<b>Name:</b> " + item.nameFull + "<br><b>Description</b>: " + item.description;
 
     var img = document.createElement('img');
@@ -196,6 +213,40 @@ function getURLFromIcon(bitmap){
     
     return canvas.toDataURL();
 }
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+async function saveAllIcons(){
+    for ( var opt = 0; opt < collection.items.length ; opt++ ){
+    //for ( var opt = 0; opt < 50 ; opt++ ){
+        const item = collection.items[opt];
+        const imgURL = getURLFromIcon(item.icon);
+        const str = "itemid_" + item.id + ".png";
+        if ( item.nameFull != "" ){
+            downloadURL(imgURL, str);
+            console.log("saving..." + str + ", " + item.nameFull);
+            await sleep(300);
+        }
+    }
+}
+
+async function saveDecodedDAT(){
+    const fn = fileName.split(".");
+    var downloadFN = fn[0] + "_decoded.DAT";
+    //console.log(downloadFN);
+    FileWork.writeBlobToFile(decodedDAT, downloadFN);
+}
+
+function downloadURL(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
 // function resetpage(){
 //     step1complete = false;

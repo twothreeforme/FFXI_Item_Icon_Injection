@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>  
+    <head>
         <script type="module" src="resource.js"></script>
     </head>
     <body>
@@ -13,7 +13,7 @@
         Step 2: Select item to change<br>
         Step 3: Select image<br>
         Step 4: Confirm injection</p>
-        <button id="restartButton" type="button">Reset Page</button> 
+        <button id="restartButton" type="button">Reset Page</button>
 
         <div id="step1">
             <hr width="50%" />
@@ -21,6 +21,8 @@
             <p>Choose applicable DAT:</p>
             <input type="file" id="input_DAT">
             <p id="step1success"></p>
+            <button id="saveDecodedDAT" type="button">Save decoded DAT</button>
+            <button id="saveAllIcons" type="button">Save all icon images</button>
         </div>
         <div id="step2">
             <hr width="50%" />
@@ -41,7 +43,7 @@
         <div id="step4">
             <hr width="50%" />
             <b>STEP 4</b><br>
-            <button id="injectButton" type="button">Inject Image</button> 
+            <button id="injectButton" type="button">Inject Image</button>
             <p id="step4success"></p>
         </div>
         </center>
